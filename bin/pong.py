@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-__author__ = "Vicentini Leonardo"
-__version__ = "07_02"
+__author__ = "Leonardo Vicentini"
+__version__ = "01_01"
 
 
 import sys
@@ -9,7 +9,7 @@ import pygame
 import random
 
 
-boold = True
+boold = False
 
 
 if __name__ == "__main__":
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     if boold:
         print("Start main")
 
-    # Inizializzo pygame e la schermata
+    # Initializing pygame and the screen
     pygame.init()
     colore = 255, 255, 255
     sfondo = 0, 0, 0
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     score_sound = pygame.mixer.Sound("../sounds/score.wav")
     catch_sound = pygame.mixer.Sound("../sounds/catch.wav")
     
-    # Inizializzo le variabili di gioco
+    # Initializing the game variables
     r_width, r_height = int(w_width / 64), int(w_height / 9)
     x_p1, y_p1 = int(w_height / 8), int(w_height / 2)
     x_p2, y_p2 = w_width - (int(w_height / 8) + r_width), int(w_height / 2)
@@ -46,8 +46,8 @@ if __name__ == "__main__":
 
     run = False
 
-    if boold: print("Avvio menù iniziale")
-    # Menu di avvio
+    if boold: print("Starting menu...")
+    # Starting menu
     while not run:
         keys = pygame.key.get_pressed()
         
@@ -72,17 +72,16 @@ if __name__ == "__main__":
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                if boold: print("Sto uscendo...")
                 sys.exit()
 
-    # Ciclo di gioco
+    # game lifecycle
     while run:
         
-        # Testo segnapunti
+        # scorekeeper
         score_p1 = font_score.render(f"{score_value_p1}", 1, colore)
         score_p2 = font_score.render(f"{score_value_p2}", 1, colore)
 
-        # lettura input
+        # reading input
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w] and y_p1 > 0:
@@ -100,18 +99,18 @@ if __name__ == "__main__":
         if boold:
             print(f"position player 1: x={x_p1} y={y_p1}\tposition player 2: X={x_p2} y={y_p2}\tposition ball: x={x_b} y={y_b}\tvelocita y della palla: {ball_speed_y}")
         
-        # Movimento della palla 
-        # Rimbalzo sulle pareti alte
+        # ball movements
+        # bounce on high walls
         if y_b + ball_radius >= w_height or y_b - ball_radius < 0:
            ball_speed_y = - ball_speed_y
            catch_sound.play()
 
-        # Rimbalzo sui giocatori
+        # bounce on players
         if (x_b - ball_radius in range(x_p1, x_p1 + r_width) and y_b in range(y_p1 - 50, y_p1 + r_height + 50)) or \
            (x_b + ball_radius in range(x_p2, x_p2 + r_width) and y_b in range(y_p2 - 50, y_p2 + r_height + 50)):
-            # Rimbalzo della palla
+            # ball bounce
             ball_speed_x = - ball_speed_x
-            # Cambio angolo palla
+            # change the angle of the ball
             ball_speed_y = random.randrange(-41, 41)
             catch_sound.play()
 
@@ -119,7 +118,7 @@ if __name__ == "__main__":
         y_b += ball_speed_y
 
 
-        # Assegnamento del punto
+        # Point assignment
         if x_b < x_p1 - 100:
             score_value_p2 += 1
             x_b, y_b = int(w_width / 2), int(w_height / 2)
@@ -136,7 +135,7 @@ if __name__ == "__main__":
             score_sound.play()
             pygame.time.delay(750)
             
-        # Disegno tutti gli oggetti
+        # I drawing all the objects
         win.fill(sfondo) 
         pygame.draw.rect(win, colore, (x_p1, y_p1, r_width, r_height)) 
         pygame.draw.rect(win, colore, (x_p2, y_p2, r_width, r_height))
@@ -150,7 +149,7 @@ if __name__ == "__main__":
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                if boold: print("Mostro i risultati finali...")
+                if boold: print("Showing final results...")
                 final_title = font_title.render("Final score", 1, colore)
                 p1_final_score = font_score.render(f"Player 1:     {score_value_p1}", 1, colore)
                 p2_final_score = font_score.render(f"Player 2:     {score_value_p2}", 1, colore)
@@ -160,7 +159,6 @@ if __name__ == "__main__":
                 win.blit(p2_final_score, ((w_width - p2_final_score.get_rect().width)/2, 350))
                 pygame.display.update()
                 pygame.time.delay(2000) 
-                if boold: print("Sto uscendo...")
                 run = False
 
     pygame.quit()
