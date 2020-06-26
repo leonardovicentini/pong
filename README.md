@@ -2,8 +2,6 @@
 
 ---
 
-## Program
-
 Stylized game of table tennis. It emulates the 1972 'Pong' game.
 
 ### Requirements
