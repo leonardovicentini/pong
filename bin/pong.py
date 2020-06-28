@@ -77,7 +77,7 @@ if __name__ == "__main__":
     # game lifecycle
     while run:
         
-        # scorekeeper
+        # Scoreboard
         score_p1 = font_score.render(f"{score_value_p1}", 1, colore)
         score_p2 = font_score.render(f"{score_value_p2}", 1, colore)
 
@@ -135,7 +135,7 @@ if __name__ == "__main__":
             score_sound.play()
             pygame.time.delay(750)
             
-        # I drawing all the objects
+        # Drawing all the objects
         win.fill(sfondo) 
         pygame.draw.rect(win, colore, (x_p1, y_p1, r_width, r_height)) 
         pygame.draw.rect(win, colore, (x_p2, y_p2, r_width, r_height))
